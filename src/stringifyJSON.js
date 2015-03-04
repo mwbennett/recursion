@@ -17,21 +17,29 @@ var stringifyJSON = function(input) {
   } else if (typeof input !== 'object'){
     return input.toString();
   }
+
   // recursively stringify arrays
   if (Array.isArray(input)){
     var stringyArray = '[';
     for (var i = 0; i < input.length; i++){
       var element = input[i];
       if (typeof element === 'number' || typeof element === 'boolean' || element === null){
-        stringyArray = stringyArray + element;
+        stringyArray += element;
       }else {
-        stringyArray = stringyArray + stringifyJSON(element);
+        stringyArray += stringifyJSON(element);
       }
       if (i < input.length - 1){
-        stringyArray = stringyArray + ',';
+        stringyArray += ',';
       }
     }
-    stringyArray = stringyArray + ']';
+    stringyArray += ']';
     return stringyArray;
   }
+
+  // recursively stringify objects 
+  if (typeof input === 'object'){
+    var stringyObject = '{';
+
+  }
+
 };
