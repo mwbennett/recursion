@@ -17,7 +17,7 @@ var stringifyJSON = function(input) {
   } else if (typeof input !== 'object'){
     return input.toString();
   }
-
+  
   // recursively stringify arrays
   if (Array.isArray(input)){
     var stringyArray = '[';
@@ -25,7 +25,7 @@ var stringifyJSON = function(input) {
       var element = input[i];
       if (typeof element === 'number' || typeof element === 'boolean' || element === null){
         stringyArray += element;
-      }else {
+      } else {
         stringyArray += stringifyJSON(element);
       }
       if (i < input.length - 1){
@@ -39,7 +39,23 @@ var stringifyJSON = function(input) {
   // recursively stringify objects 
   if (typeof input === 'object'){
     var stringyObject = '{';
-
+    for (var key in input){
+      if (typeof key === 'number' || typeof key === 'boolean' || key === null){
+        stringyObject += key + ':';
+      } else {
+        stringyObject += stringifyJSON(key) + ':';
+      }
+      if (typeof input[key] === 'number' || typeof input[key] === 'boolean' || input[key] === null){
+        stringyObject += input[key] + ',';
+      } else {
+        stringyObject += stringifyJSON(input[key]) + ',';
+      }
+    }
+    if (stringyObject.length > 2){
+      stringyObject = stringyObject.slice(0, stringyObject.length - 1);
+    }
+    stringyObject += '}';
+    return stringyObject;
   }
 
 };
