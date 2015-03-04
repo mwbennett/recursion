@@ -18,12 +18,21 @@ var stringifyJSON = function(input) {
     return input.toString();
   }
   
+  // helper function for determining which elements to augment in ojects and arrays 
+  var untouched = function(item){
+    var result = false;
+    if (typeof item === 'number' || typeof item === 'boolean' || item === null) {
+      result = true;
+    } 
+    return result;
+  }
+
   // recursively stringify arrays
   if (Array.isArray(input)){
     var stringyArray = '[';
     for (var i = 0; i < input.length; i++){
       var element = input[i];
-      if (typeof element === 'number' || typeof element === 'boolean' || element === null){
+      if (untouched(element)){
         stringyArray += element;
       } else {
         stringyArray += stringifyJSON(element);
@@ -43,12 +52,12 @@ var stringifyJSON = function(input) {
       if (input[key] === undefined || typeof input[key] === 'function'){
         continue;
       }
-      if (typeof key === 'number' || typeof key === 'boolean' || key === null){
+      if (untouched(key)){
         stringyObject += key + ':';
       } else {
         stringyObject += stringifyJSON(key) + ':';
       }
-      if (typeof input[key] === 'number' || typeof input[key] === 'boolean' || input[key] === null){
+      if (untouched(input[key])){
         stringyObject += input[key] + ',';
       } else {
         stringyObject += stringifyJSON(input[key]) + ',';
