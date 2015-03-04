@@ -3,6 +3,16 @@
 
 // but you don't so you're going to write it from scratch:
 
-var stringifyJSON = function(obj) {
-  // your code goes here
+var stringifyJSON = function(element) {
+  if (typeof element === 'function' || element === undefined){
+    return;
+  }
+  if (element === null){
+    return 'null';
+  }
+  if (typeof element === 'string'){
+    return '"' + element + '"';
+  } else if (typeof element !== 'object'){
+    return element.toString();
+  }
 };
