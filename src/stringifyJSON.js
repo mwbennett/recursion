@@ -40,6 +40,9 @@ var stringifyJSON = function(input) {
   if (typeof input === 'object'){
     var stringyObject = '{';
     for (var key in input){
+      if (input[key] === undefined || typeof input[key] === 'function'){
+        continue;
+      }
       if (typeof key === 'number' || typeof key === 'boolean' || key === null){
         stringyObject += key + ':';
       } else {
@@ -51,7 +54,7 @@ var stringifyJSON = function(input) {
         stringyObject += stringifyJSON(input[key]) + ',';
       }
     }
-    if (stringyObject.length > 2){
+    if (stringyObject.length > 1){
       stringyObject = stringyObject.slice(0, stringyObject.length - 1);
     }
     stringyObject += '}';
